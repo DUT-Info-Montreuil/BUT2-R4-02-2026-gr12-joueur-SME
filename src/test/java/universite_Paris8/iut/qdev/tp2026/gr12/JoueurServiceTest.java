@@ -2,9 +2,10 @@ package universite_Paris8.iut.qdev.tp2026.gr12;
 
 import universite_Paris8.iut.qdev.tp2026.gr12.interfaces.IJoueurDAO;
 import universite_Paris8.iut.qdev.tp2026.gr12.entitites.JoueurDTO;
-import exception.*;
+import universite_Paris8.iut.qdev.tp2026.gr12.exceptions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import universite_Paris8.iut.qdev.tp2026.gr12.services.JoueurService;
 
 import java.time.Year;
 
