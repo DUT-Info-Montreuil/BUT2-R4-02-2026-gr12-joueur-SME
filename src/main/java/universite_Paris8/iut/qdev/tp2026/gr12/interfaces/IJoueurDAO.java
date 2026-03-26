@@ -22,4 +22,6 @@ public interface IJoueurDAO {
      * @return le joueur avec son idJoueur généré
      */
     JoueurDTO insererJoueur(JoueurDTO joueur);
+
+
 }
