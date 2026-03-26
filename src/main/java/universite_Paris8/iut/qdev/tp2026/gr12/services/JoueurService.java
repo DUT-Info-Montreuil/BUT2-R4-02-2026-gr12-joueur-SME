@@ -5,7 +5,9 @@ import universite_Paris8.iut.qdev.tp2026.gr12.entitites.JoueurDTO;
 import universite_Paris8.iut.qdev.tp2026.gr12.exceptions.*;
 
 import java.time.Year;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Service métier pour la gestion des joueurs.
@@ -94,7 +96,11 @@ public class JoueurService {
      * @return la liste des joueurs, vide si aucun joueur n'existe
      */
     public List<JoueurDTO> listerJoueurs() {
-        return joueurDAO.listerJoueurs();
+        List<JoueurDTO> listeNonTriee = joueurDAO.listerJoueurs();
+
+        return listeNonTriee.stream().
+                sorted(Comparator.comparing(JoueurDTO::getPseudoJoueur, String.CASE_INSENSITIVE_ORDER))
+                .collect(Collectors.toList());
     }
 
 
