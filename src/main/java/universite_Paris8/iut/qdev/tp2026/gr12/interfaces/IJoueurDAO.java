@@ -1,6 +1,7 @@
 package universite_Paris8.iut.qdev.tp2026.gr12.interfaces;
 
 import universite_Paris8.iut.qdev.tp2026.gr12.entitites.JoueurDTO;
+import universite_Paris8.iut.qdev.tp2026.gr12.entitites.ScoreDTO;
 
 import java.util.List;
 
@@ -55,4 +56,21 @@ public interface IJoueurDAO {
      * @param tempsEnSecondes la durée de la partie en secondes
      */
     void ajouterScoreJoueur(String pseudo, int score, int tempsEnSecondes);
+
+    /**
+     * Récupère l'intégralité des scores enregistrés pour toutes les parties.
+     * Note: Doit inclure les scores des joueurs qui ont été supprimés logiquement.
+     *
+     * @return une liste non triée de tous les ScoreDTO
+     */
+    List<ScoreDTO> recupererTousLesScores();
+
+    /**
+     * Récupère tout l'historique des scores d'un joueur spécifique,
+     * trié du plus récent au plus ancien.
+     *
+     * @param pseudo le pseudo du joueur
+     * @return la liste de ses parties (ScoreDTO), ou une liste vide s'il n'a jamais joué
+     */
+    List<ScoreDTO> recupererScoresJoueur(String pseudo);
 }
