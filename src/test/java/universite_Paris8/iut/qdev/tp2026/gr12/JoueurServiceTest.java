@@ -33,7 +33,7 @@ class JoueurServiceTest {
     @Test
     void ajouterJoueur_nominal_retourneJoueur()
             throws PseudoIncorrectException, PseudoDejaUtiliseException,
-                   AnneeNaissanceIncorrecteException, CentreInteretIncorrectException {
+            AnneeNaissanceIncorrecteException, CentreInteretIncorrectException, JoueurNullException, LanguePrefIncorrecteException {
 
         JoueurDTO joueur = new JoueurDTO(0, "alice", "Alice", 2000, 1, "musique, sport");
         JoueurDTO joueurCree = new JoueurDTO(1, "alice", "Alice", 2000, 1, "musique, sport");
@@ -50,7 +50,7 @@ class JoueurServiceTest {
     @Test
     void ajouterJoueur_sansPrenomNiAnneeNiCI_nominal()
             throws PseudoIncorrectException, PseudoDejaUtiliseException,
-                   AnneeNaissanceIncorrecteException, CentreInteretIncorrectException {
+            AnneeNaissanceIncorrecteException, CentreInteretIncorrectException, JoueurNullException, LanguePrefIncorrecteException {
 
         JoueurDTO joueur = new JoueurDTO(0, "bob", null, null, 3, null);
         JoueurDTO joueurCree = new JoueurDTO(2, "bob", null, null, 3, null);
@@ -136,13 +136,13 @@ class JoueurServiceTest {
     void ajouterJoueur_langueHorsLimite_leveIllegalArgumentException() {
         JoueurDTO joueur = new JoueurDTO(0, "alice", "Alice", 2000, 6, null);
         when(joueurDAO.pseudoDejaUtilise("alice")).thenReturn(false);
-        assertThrows(IllegalArgumentException.class, () -> joueurService.ajouterJoueur(joueur));
+        assertThrows(LanguePrefIncorrecteException.class, () -> joueurService.ajouterJoueur(joueur));
     }
 
     @Test
     void ajouterJoueur_langueZero_leveIllegalArgumentException() {
         JoueurDTO joueur = new JoueurDTO(0, "alice", "Alice", 2000, 0, null);
         when(joueurDAO.pseudoDejaUtilise("alice")).thenReturn(false);
-        assertThrows(IllegalArgumentException.class, () -> joueurService.ajouterJoueur(joueur));
+        assertThrows(LanguePrefIncorrecteException.class, () -> joueurService.ajouterJoueur(joueur));
     }
 }

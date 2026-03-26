@@ -52,7 +52,13 @@ public class JoueurService {
             throws PseudoIncorrectException,
                    PseudoDejaUtiliseException,
                    AnneeNaissanceIncorrecteException,
-                   CentreInteretIncorrectException {
+                   CentreInteretIncorrectException,
+                   LanguePrefIncorrecteException,
+                   JoueurNullException {
+
+        if(joueur == null) {
+            throw new JoueurNullException("Joueur ne peut pas être null");
+        }
 
         // --- Étape 1 : Validation du pseudo (format) ---
         validerPseudo(joueur.getPseudoJoueur());
@@ -63,22 +69,17 @@ public class JoueurService {
                     "Le pseudo '" + joueur.getPseudoJoueur() + "' est déjà utilisé.");
         }
 
-        // --- Étape 3 : Le prénom peut être vide – pas de validation bloquante ---
-        // (Selon le diagramme, si prénom est vide on lève une erreur.
-        //  Cependant la spec page 2 indique "Peut être vide".
-        //  On se fie à la spec écrite et on accepte un prénom vide.)
-
-        // --- Étape 4 : Validation de l'année de naissance ---
+        // --- Étape 3 : Validation de l'année de naissance ---
         if (joueur.getAnneeNaissance() != null) {
             validerAnneeNaissance(joueur.getAnneeNaissance());
         }
 
-        // --- Étape 5 : Validation du centre d'intérêt ---
+        // --- Étape 4 : Validation du centre d'intérêt ---
         if (joueur.getCentreInteret() != null && !joueur.getCentreInteret().isBlank()) {
             validerCentreInteret(joueur.getCentreInteret());
         }
 
-        // --- Étape 6 : Validation de la langue préférée ---
+        // --- Étape 5 : Validation de la langue préférée ---
         validerLanguePref(joueur.getLanguePref());
 
         // --- Persistance ---
@@ -131,9 +132,9 @@ public class JoueurService {
      * Valide la langue préférée.
      * Règle : doit être comprise entre {@value #LANGUE_MIN} et {@value #LANGUE_MAX}.
      */
-    private void validerLanguePref(int langue) {
+    private void validerLanguePref(int langue) throws LanguePrefIncorrecteException {
         if (langue < LANGUE_MIN || langue > LANGUE_MAX) {
-            throw new IllegalArgumentException(
+            throw new LanguePrefIncorrecteException(
                     "La langue préférée doit être comprise entre "
                     + LANGUE_MIN + " et " + LANGUE_MAX + ". Valeur reçue : " + langue);
         }
