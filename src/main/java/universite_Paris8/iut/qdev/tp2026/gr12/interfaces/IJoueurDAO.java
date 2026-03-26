@@ -31,4 +31,11 @@ public interface IJoueurDAO {
      * @return la liste des joueurs, vide si aucun joueur n'existe
      */
     List<JoueurDTO> listerJoueurs();
+
+    /**
+     * Supprime un joueur à partir de son pseudo (en tenant compte de la casse).
+     *
+     * @param pseudo le pseudo exact du joueur à supprimer
+     */
+    void supprimerJoueur(String pseudo);
 }

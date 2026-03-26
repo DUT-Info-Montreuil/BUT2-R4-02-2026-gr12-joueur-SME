@@ -103,6 +103,35 @@ public class JoueurService {
                 .collect(Collectors.toList());
     }
 
+    // -------------------------------------------------------------------------
+    // Use case : supprimerJoueur
+    // -------------------------------------------------------------------------
+
+    /**
+     * Supprime un joueur existant en vérifiant son pseudo.
+     * La casse doit être strictement respectée.
+     * * @param pseudo le pseudo du joueur à supprimer
+     * @throws PseudoIncorrectException si le pseudo fourni est vide ou invalide
+     * @throws JoueurInexistantException si aucun joueur ne correspond à ce pseudo
+     */
+
+    public void supprimerJoueur(String pseudo)
+            throws PseudoIncorrectException, JoueurInexistantException {
+
+        // 1. Validation de base du format du pseudo
+        if (pseudo == null || pseudo.isBlank()) {
+            throw new PseudoIncorrectException("Le pseudo à supprimer ne peut pas être vide.");
+        }
+
+        // 2. Vérification de l'existence du joueur (en tenant compte de la casse)
+        // On réutilise pseudoDejaUtilise() qui sert déjà à vérifier l'existence
+        if (!joueurDAO.pseudoDejaUtilise(pseudo)) {
+            throw new JoueurInexistantException("Impossible de supprimer : le joueur '" + pseudo + "' n'existe pas.");
+        }
+
+        // 3. Suppression via le DAO
+        joueurDAO.supprimerJoueur(pseudo);
+    }
 
     // -------------------------------------------------------------------------
     // Méthodes de validation privées
