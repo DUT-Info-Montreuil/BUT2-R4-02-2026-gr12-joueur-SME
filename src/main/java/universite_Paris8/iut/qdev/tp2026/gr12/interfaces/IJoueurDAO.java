@@ -2,6 +2,8 @@ package universite_Paris8.iut.qdev.tp2026.gr12.interfaces;
 
 import universite_Paris8.iut.qdev.tp2026.gr12.entitites.JoueurDTO;
 
+import java.util.List;
+
 /**
  * Interface DAO pour la gestion des joueurs en base de données.
  */
@@ -22,4 +24,11 @@ public interface IJoueurDAO {
      * @return le joueur avec son idJoueur généré
      */
     JoueurDTO insererJoueur(JoueurDTO joueur);
+
+    /**
+     * Récupère la liste de tous les joueurs.
+     *
+     * @return la liste des joueurs, vide si aucun joueur n'existe
+     */
+    List<JoueurDTO> listerJoueurs();
 }
