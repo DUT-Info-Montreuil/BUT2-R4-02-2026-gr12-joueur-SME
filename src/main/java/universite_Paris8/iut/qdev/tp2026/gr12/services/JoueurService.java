@@ -133,6 +133,78 @@ public class JoueurService {
         joueurDAO.supprimerJoueur(pseudo);
     }
 
+
+    // -------------------------------------------------------------------------
+    // Use case : transmettreInfoJoueur
+    // -------------------------------------------------------------------------
+
+    /**
+     * Récupère le profil complet d'un joueur via son pseudo.
+     * * @param pseudo le pseudo exact du joueur
+     * @return le JoueurDTO contenant toutes les infos
+     * @throws PseudoIncorrectException si le pseudo est vide
+     * @throws JoueurInexistantException si le joueur n'existe pas en base
+     */
+    public JoueurDTO transmettreInfoJoueur(String pseudo)
+            throws PseudoIncorrectException, JoueurInexistantException {
+
+        // 1. Validation de la saisie
+        if (pseudo == null || pseudo.isBlank()) {
+            throw new PseudoIncorrectException("Le pseudo recherché ne peut pas être vide.");
+        }
+
+        // 2. Récupération via le DAO
+        JoueurDTO joueur = joueurDAO.recupererJoueurParPseudo(pseudo);
+
+        // 3. Vérification de l'existence
+        if (joueur == null) {
+            throw new JoueurInexistantException("Le joueur '" + pseudo + "' est introuvable.");
+        }
+
+        return joueur;
+    }
+
+
+    // -------------------------------------------------------------------------
+    // Use case : gestionScoreJoueur
+    // -------------------------------------------------------------------------
+
+    /**
+     * Enregistre le score et le temps d'un joueur à la fin d'une partie.
+     *
+     * @param pseudo le pseudo exact du joueur
+     * @param score le score final calculé
+     * @param tempsEnSecondes le temps mis pour répondre aux 10 questions
+     * @throws PseudoIncorrectException si le pseudo est vide
+     * @throws JoueurInexistantException si le joueur n'existe pas en base
+     * @throws scoreNegatifException si le score est négatifs
+     * @throws tempsNegatifException si le temps est négatif
+     */
+    public void gestionScoreJoueur(String pseudo, int score, int tempsEnSecondes)
+            throws PseudoIncorrectException, JoueurInexistantException, scoreNegatifException, tempsNegatifException {
+
+        // 1. Validation de la saisie du pseudo
+        if (pseudo == null || pseudo.isBlank()) {
+            throw new PseudoIncorrectException("Le pseudo ne peut pas être vide pour enregistrer un score.");
+        }
+
+        // 2. Vérification de l'existence du joueur
+        if (!joueurDAO.pseudoDejaUtilise(pseudo)) {
+            throw new JoueurInexistantException("Impossible d'enregistrer le score : le joueur '" + pseudo + "' est introuvable.");
+        }
+
+        // 3. Validation des données de la partie
+        if (score < 0) {
+            throw new scoreNegatifException("Le score ne peut pas être négatif.");
+        }
+        if (tempsEnSecondes < 0) {
+            throw new tempsNegatifException("Le temps de la partie ne peut pas être négatif.");
+        }
+
+        // 4. Enregistrement via le DAO
+        joueurDAO.ajouterScoreJoueur(pseudo, score, tempsEnSecondes);
+    }
+
     // -------------------------------------------------------------------------
     // Méthodes de validation privées
     // -------------------------------------------------------------------------

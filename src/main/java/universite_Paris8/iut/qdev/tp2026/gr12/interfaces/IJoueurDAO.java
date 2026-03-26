@@ -38,4 +38,21 @@ public interface IJoueurDAO {
      * @param pseudo le pseudo exact du joueur à supprimer
      */
     void supprimerJoueur(String pseudo);
+
+    /**
+     * Récupère les informations d'un joueur à partir de son pseudo.
+     *
+     * @param pseudo le pseudo du joueur recherché
+     * @return le JoueurDTO correspondant, ou null si non trouvé
+     */
+    JoueurDTO recupererJoueurParPseudo(String pseudo);
+
+    /**
+     * Enregistre le résultat d'une partie pour un joueur donné.
+     *
+     * @param pseudo le pseudo du joueur ayant joué
+     * @param score le score obtenu à la partie
+     * @param tempsEnSecondes la durée de la partie en secondes
+     */
+    void ajouterScoreJoueur(String pseudo, int score, int tempsEnSecondes);
 }
